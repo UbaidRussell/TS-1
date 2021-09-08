@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="main.css">
+  <link rel="script" href="main.js" />
+</head>
+
+<body>
+  <section class="hero is-fullheight">
+
+    <div class="hero-body">
+
+      <div class="container">
+
+        <br>
+
+        <div class="columns">
+
+          <div class="column is-3 is-flex">
+
+            <div class="column-child sidebar shadow">
+              <div class="sidebar">
+
+                <div class="photo"><img src="" /></div>
+
+                <h2 class="header-name"><mark>$Ubaid Russell$<mark></h2>
+                <h5>Software Developer</h5>
+                <p>Type into the Terminal below(auto-correct:off)</p>
+
+
+                <div class="social-icons">
+                  <a href="https://twitter.com/UbaidRussell"><i class="fab fa-twitter"></i></a>
+
+                  <a href="https://www.linkedin.com/in/ubaid-russell-3a59b616b/"><i class="fab fa-linkedin icon"></i></a>
+
+                  <a href="https://github.com/UbaidRussell"><i class="fab fa-github icon"></i></a>
+
+                </div>
+
+                <div class="resume">
+                  <a href="" class="sidebar-link"> Resume </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="column is-flex">
+
+            <div class="column-child terminal shadow">
+
+              <div class="terminal-bar dark-mode">
+
+
+                <div class="icon-btn close"></div>
+
+                <div class="icon-btn min"></div>
+
+                <div class="icon-btn max"></div>
+
+                <div class="terminal-bar-text is-hidden-mobile dark-mode-text">U.R Terminal/Libary</div>
+              </div>
+
+              <div class="terminal-window primary-bg" onclick="document.getElementById('dummyKeyboard').focus();">
+
+                <div class="terminal-output" id="terminalOutput">
+
+                  <div class="terminal-line">
+                    <span class="help-msg">You are now in my brain.<br> ~Type <span class="code">help</span> for a list of U.R OS supported commands.<br>When viewing from Iphone press return to output!</span>
+                  </div>
+
+                </div>
+
+                <div class="terminal-line">
+                  <span class="success">➜</span> <span class="directory">~</span> <span class="user-input" id="userInput"></span>
+                  <input type="text" id="dummyKeyboard" class="dummy-keyboard">
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+    <footer class="footer">
+
+      <div class="content has-text-centered">
+        <p>
+          ©<i class="fas fa-heart icon"></i>2020 UbaidRussell
+        </p>
+      </div>
+    </footer>
+    <script>
+      const BLACKLISTED_KEY_CODES = [38];
+      const COMMANDS = {
+        help: 'Supported commands: <br><span class="code">about</span>, <span class="code">experience</span>, <span class="code">education</span>,<br> <span class="code">skills</span>, <span class="code">projects</span>, <span class="code">contact</span>,<span class="code">fork</span>',
+        about: "I build things and tweet.",
+
+        skills: '<span class="code">Languages:</span> Java , Python , Swift , HTML, CSS, JavaScript;<br><span class="code">Technologies:</span> Xcode, Visual Studio Code, Eclipse, NetBeans;<br><span class="code">Frameworks:</span> React.js;',
+
+        education: "Murray Hill Academy 2021 Graduate <br> App Brewery <br> Academind",
+
+        experience: "Techie Youth, Web Developer <br>The Excel,Web Developer",
+
+        contact: "You can contact me on any of following:<br><a href='https://www.linkedin.com/in/ubaid-russell-3a59b616b/' class='success link'>Linkedin</a> , <a href='https://www.twitter.com/UbaidRussell' class='success link'>Twitter</a>,",
+
+
+        projects: 'Updating',
+
+        fork: "Fork this project here:<a href='https://github.com/UbaidRussell' class='success link'>Github</a>",
+
+
+
+
+        quotes: '1."Spend more money OR Make more money.One will kill you."<br>2."It is both,dead and alive according to schrodingers cat."<br>3."If you want something,give something."<br>4."Judge Noone."<br>5."What did you create today?"<br>6."The clouds take any shape they want.I wish I was clouds."<br>7."The more you learn the easier it becomes to make money."<br>8."Give out some cheatcodes,I mean like why not?"<br>9."Take your time."<br>10."The more it matters who said it,the less it actually matters."',
+
+        extra_time: 'Chess club, Hackathon,a local starbucks',
+
+      };
+      let userInput, terminalOutput;
+
+      const app = () => {
+        userInput = document.getElementById("userInput");
+        terminalOutput = document.getElementById("terminalOutput");
+        document.getElementById("dummyKeyboard").focus();
+        console.log("Application loaded");
+      };
+
+      const execute = function executeCommand(input) {
+        let output;
+        input = input.toLowerCase();
+        if (input.length === 0) {
+          return;
+        }
+        output = `<div class="terminal-line"><span class="success">➜</span> <span class="directory">~</span> ${input}</div>`;
+        if (!COMMANDS.hasOwnProperty(input)) {
+          output += `<div class="terminal-line">no such command: ${input}</div>`;
+          console.log("Oops! no such command");
+        } else {
+          output += COMMANDS[input];
+        }
+
+        terminalOutput.innerHTML = `${
+    terminalOutput.innerHTML
+  }<div class="terminal-line">${output}</div>`;
+        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+      };
+
+      const key = function keyEvent(e) {
+        const input = userInput.innerHTML;
+
+        if (BLACKLISTED_KEY_CODES.includes(e.keyCode)) {
+          return;
+        }
+
+        if (e.key === "Enter") {
+          execute(input);
+          userInput.innerHTML = "";
+          return;
+        }
+
+        userInput.innerHTML = input + e.key;
+      };
+
+      const backspace = function backSpaceKeyEvent(e) {
+        if (e.keyCode !== 8 && e.keyCode !== 46) {
+          return;
+        }
+        userInput.innerHTML = userInput.innerHTML.slice(
+          0,
+          userInput.innerHTML.length - 1
+        );
+      };
+
+      document.addEventListener("keydown", backspace);
+      document.addEventListener("keypress", key);
+      document.addEventListener("DOMContentLoaded", app);
+    </script>
+</body>
+
+</html>
